@@ -1,0 +1,32 @@
+x <- 100
+f <- 1:x
+hz <- 1:( x/2 )
+t <- seq( 0.01, 1.00,  1 / length( f ) )
+
+# 4Hz‚Ì³Œ·”g
+data_waveA <- sin( 2 * pi * t * 4 )
+
+# 18Hz‚Ì—]Œ·”g
+data_waveB <- cos( 2 * pi * t * 18 )
+
+# ã‹L2‚Â‚Ì‡¬”g
+data_waveC <- data_waveA + data_waveB
+
+# ”g‚ð•`‚«‚Ü‚·B
+par( "mfrow" = c( 3, 1 ) )
+plot( t, data_waveA, type="l" )
+plot( t, data_waveB, type="l" )
+plot( t, data_waveC, type="l" )
+
+
+# ‚‘¬ƒt[ƒŠƒG•ÏŠ·‚ðs‚È‚¢‚Ü‚·B
+data_freqA <- fft( data_waveA - mean( data_waveA ) )
+data_freqB <- fft( data_waveB - mean( data_waveB ) )
+data_freqC <- fft( data_waveC - mean( data_waveC ) )
+
+# •ÏŠ·Œ‹‰Ê‚ð•\Ž¦‚µ‚Ü‚·B
+# ‡¬”g‚ÌŽü”g”‚à•\Ž¦‚³‚ê‚Ä‚¢‚Ü‚·B
+par( "mfrow" = c( 3, 1 ) )
+plot( hz, abs( data_freqA[ hz ] ), type="l" )
+plot( hz, abs( data_freqB[ hz ] ), type="l" )
+plot( hz, abs( data_freqC[ hz ] ), type="l" )

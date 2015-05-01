@@ -1,0 +1,69 @@
+x <- 60 * 24 * 365
+f <- 1:x
+hz <- 1:( x/2 )
+t_all <- seq( (1 / x), 1.00,  1 / length( f ) )
+t <- t_all[1:60 * 24 * 20]
+
+# t <- seq( (1 / x), 1.00,  1 / length( f ) )
+
+
+
+# Daily 360Hzの正弦波
+data_waveA <- sin( 2 * pi * t * 360 )
+
+# Anually 1Hzの正弦波
+data_waveB <- sin( 2 * pi * t * 1 )
+
+# 上記2つの合成波
+data_waveC <- data_waveA + data_waveB
+
+# 波を描きます。
+par( "mfrow" = c( 3, 1 ) )
+plot( t, data_waveA, type="l" )
+plot( t, data_waveB, type="l" )
+plot( t, data_waveC, type="l" )
+
+# plot( t, data_waveA, xlim = c(0, 2/365), type = "l" )
+# plot( t, data_waveC, xlim = c(0, 22/365), type = "l" )
+
+
+
+# 高速フーリエ変換を行ないます。
+data_freqA <- fft( data_waveA - mean( data_waveA ) )
+data_freqB <- fft( data_waveB - mean( data_waveB ) )
+data_freqC <- fft( data_waveC - mean( data_waveC ) )
+
+# 変換結果を表示します。
+# 合成波の周波数も表示されています。
+par( "mfrow" = c( 3, 1 ) )
+plot( hz, abs( data_freqA[ hz ] ), xlim = c(0, 400), type="l" )
+plot( hz, abs( data_freqB[ hz ] ), xlim = c(0, 400), type="l" )
+plot( hz, abs( data_freqC[ hz ] ), xlim = c(0, 400), type="l" )
+
+# plot( hz, abs( data_freqC[ hz ] ), xlim = c(0, 400), type="l" )
+
+# グラフをファイルに保存する
+dirPath <- "C:/var/work/data/fft"
+#pngFileName <- "fft_p_pv_d20.png"
+pngFileName <- paste("fft_p_pv_d20_", c("A", "B", "C"), ".png", sep = "")
+pngFileName <- paste("fft_p_pv_d365_", c("A", "B", "C"), ".png", sep = "")
+pngFilePath <- paste(dirPath, pngFileName, sep = "/")
+
+# 描画デバイスを開く
+png(pngFilePath[1], width = 480, height = 270)  
+plot( hz, abs( data_freqA[ hz ] ), xlim = c(0, 400), type="l" )
+# 描画デバイスを閉じる
+dev.off() 
+
+# 描画デバイスを開く
+png(pngFilePath[2], width = 480, height = 270)  
+plot( hz, abs( data_freqB[ hz ] ), xlim = c(0, 400), type="l" )
+# 描画デバイスを閉じる
+
+# 描画デバイスを開く
+dev.off() 
+png(pngFilePath[3], width = 480, height = 270)  
+plot( hz, abs( data_freqC[ hz ] ), xlim = c(0, 400), type="l" )
+# 描画デバイスを閉じる
+dev.off() 
+
