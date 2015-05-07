@@ -1,1 +1,8 @@
-test_20150404_2247
+### load function
+setwd("C:/var/work/R")
+source("bayes-gaussian-gamma.r", encoding="UTF-8")
+
+
+
+
+

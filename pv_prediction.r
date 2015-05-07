@@ -1,3 +1,45 @@
+#
+
+t <- c(10:30)
+g <- c(1:140)*0.001
+# 2015-04-30 00:00:00,-3.92166000,0.56664800,-5.14571000
+a <- -3.92166000
+b <- 0.56664800
+c <- -5.14571000
+
+p_tg <- function(a, b, c, t, g) {
+  g_size <- length(g)
+  t_size <- length(t)
+  p <- matrix(0, nrow=g_size, ncol=t_size)  
+  for (i in c(1 : g_size)) {
+    for (j in c(1 : t_size)) {
+      p[i,j] <- (a + b*t[j] + c*g[i]) * g[i]
+    }
+  }
+  return(p)
+}
+
+p <- p_tg(a, b, c, t, g)
+
+g_cols <- 1
+g_rows <- 1
+par(mfrow=c(g_rows, g_cols))
+
+library(scatterplot3d)
+library(rgl)
+
+plot3d(g, t, p)
+
+# scatterplot3d(g, t, p,
+#               #xlim = c(min(g), max(g)), ylim = c(min(t), max(t)), zlim = c(min(p), max(p)),
+#               color = 1,
+#               col.axis="blue", col.grid="lightblue",
+#               main = titles, type="h", pch=20) 
+
+t_index <- 10
+plot3d(g, t[t_index], p[,t_index])
+
+
 # ‘¾—z‚“x‚¨‚æ‚Ñ‘¾—z•ûˆÊŠp‚ÌŒvŽZ
 
 d <- c(1 : 365)
