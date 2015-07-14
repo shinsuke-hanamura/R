@@ -40,16 +40,16 @@ t_index <- 10
 plot3d(g, t[t_index], p[,t_index])
 
 
-# ‘¾—z‚“x‚¨‚æ‚Ñ‘¾—z•ûˆÊŠp‚ÌŒvZ
+# å¤ªé™½é«˜åº¦ãŠã‚ˆã³å¤ªé™½æ–¹ä½è§’ã®è¨ˆç®—
 
 d <- c(1 : 365)
 
-# “ú‚ÌŒW”
+# æ—¥ã®ä¿‚æ•°
 chi <- function (d) {
   return((2 * pi * (d - 1) ) / 365)
 }
 
-# ‹Ï·
+# å‡æ™‚å·®
 e_t <- function (chi) {
   return((0.0172 + 0.4281 * cos(chi) - 7.3515 * sin(chi) - 3.3495 * cos(2 * chi) - 9.3619 * sin(2 * chi) ) / 60)
 
@@ -65,13 +65,13 @@ plot(e_t_d, type="l")
 # hz <- c(1:length(e_t_d_fft))
 # plot( hz, abs(e_t_d_fft), type="l" )
 
-# Œo“x
+# çµŒåº¦
 lambda <- 135
 
-# ˆÜ“x
+# ç·¯åº¦
 phi <- (pi / 180) * 35
 
-# Šp
+# æ™‚è§’
 omega <- function(h, lambda, e_t) {
   return(15 * h + lambda - 135 + 15 * e_t)
 }
@@ -79,7 +79,7 @@ omega <- function(h, lambda, e_t) {
 h_noon <- 12
 omega_d <- omega(h_noon, lambda, e_t_d)
 
-# ‘¾—zÔˆÜ
+# å¤ªé™½èµ¤ç·¯
 delta <- function(chi) {
   return(0.006918 - 0.399912 * cos(chi) + 0.070257 * sin(chi) - 0.006758 * cos(2 * chi) + 0.000908 * sin(2 * chi))
 }
@@ -87,7 +87,7 @@ delta <- function(chi) {
 delta_d <- delta(chi(d))
 
 
-# ‘¾—z‚“x
+# å¤ªé™½é«˜åº¦
 s_h <- function(phi, delta, omega) {
   return(asin(cos(phi) * cos(delta) * cos((pi / 180) * omega) + sin(delta) * sin(phi)))
 }
@@ -95,7 +95,7 @@ s_h <- function(phi, delta, omega) {
 s_h_d <- s_h(phi, delta_d, omega_d)
 
 
-# ‘¾—z•ûˆÊŠp
+# å¤ªé™½æ–¹ä½è§’
 psi <- function(delta, omega, s_h) {
   return(asin(cos(delta) * sin((pi / 180) * omega) / cos(s_h)))
 }
@@ -114,9 +114,9 @@ plot((180 / pi) * psi_d, type="l" )
 
 # simulation
 
-# Œo“x
+# çµŒåº¦
 lambda <-135
-# ˆÜ“x
+# ç·¯åº¦
 phi <- (pi / 180) * 35
 
 # gsub(" ", "", paste("000", d, seq=""))
@@ -133,7 +133,7 @@ fillzero <- function(zeros, str) {
 
 
 
-# Šp‚ğ•Ï‰»‚³‚¹‚é
+# æ™‚è§’ã‚’å¤‰åŒ–ã•ã›ã‚‹
 
 d <- c(1 : 365)
 dirPath <- "C:/var/work/data/solar"
@@ -149,9 +149,9 @@ for (d in c(1 : 365)) {
   e_t_d <- e_t(chi(d))
   omega_d <- omega(h, lambda, e_t_d)
   delta_d <- delta(chi(d))
-  # ‘¾—z‚“x
+  # å¤ªé™½é«˜åº¦
   s_h_d <- s_h(phi, delta_d, omega_d)
-  # ‘¾—z•ûˆÊŠp
+  # å¤ªé™½æ–¹ä½è§’
   psi_d <- psi(delta_d, omega_d, s_h_d)
   
   x <- sin(psi_d)
@@ -161,7 +161,7 @@ for (d in c(1 : 365)) {
   titles <- paste("Solar Altitude ", d, "th day", sep = "")
   
   
-  # •`‰æƒfƒoƒCƒX‚ğŠJ‚­
+  # æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã
   pngFileName <- paste("solar_", fillzero(3, d), ".png", sep = "")
   pngFilePath <- paste(dirPath, pngFileName, sep = "/")
 
@@ -171,10 +171,10 @@ for (d in c(1 : 365)) {
                 color = c,
                 col.axis="blue", col.grid="lightblue",
                 main = titles, type="h", pch=20) 
-  # •`‰æƒfƒoƒCƒX‚ğ•Â‚¶‚é
+  # æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
   dev.off() 
 
-  # •`‰æƒfƒoƒCƒX‚ğŠJ‚­
+  # æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã
   pngFileName <- paste("solar_", fillzero(3, d), "_2d.png", sep = "")
   pngFilePath <- paste(dirPath2d, pngFileName, sep = "/")
 
@@ -184,7 +184,7 @@ for (d in c(1 : 365)) {
                 xlim = c(-2, 2), ylim = c(-2, 2), 
                 col = c,
                 main = titles, pch=20) 
-  # •`‰æƒfƒoƒCƒX‚ğ•Â‚¶‚é
+  # æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
   dev.off() 
 
 }
@@ -238,16 +238,16 @@ t <- t_all[1:60 * 24 * 20]
 
 
 
-# Daily 360Hz‚Ì³Œ·”g
+# Daily 360Hzã®æ­£å¼¦æ³¢
 data_waveA <- sin( 2 * pi * t * 360 )
 
-# Anually 1Hz‚Ì³Œ·”g
+# Anually 1Hzã®æ­£å¼¦æ³¢
 data_waveB <- sin( 2 * pi * t * 1 )
 
-# ã‹L2‚Â‚Ì‡¬”g
+# ä¸Šè¨˜2ã¤ã®åˆæˆæ³¢
 data_waveC <- data_waveA + data_waveB
 
-# ”g‚ğ•`‚«‚Ü‚·B
+# æ³¢ã‚’æãã¾ã™ã€‚
 par( "mfrow" = c( 3, 1 ) )
 plot( t, data_waveA, type="l" )
 plot( t, data_waveB, type="l" )
@@ -258,13 +258,13 @@ plot( t, data_waveC, type="l" )
 
 
 
-# ‚‘¬ƒt[ƒŠƒG•ÏŠ·‚ğs‚È‚¢‚Ü‚·B
+# é«˜é€Ÿãƒ•ãƒ¼ãƒªã‚¨å¤‰æ›ã‚’è¡Œãªã„ã¾ã™ã€‚
 data_freqA <- fft( data_waveA - mean( data_waveA ) )
 data_freqB <- fft( data_waveB - mean( data_waveB ) )
 data_freqC <- fft( data_waveC - mean( data_waveC ) )
 
-# •ÏŠ·Œ‹‰Ê‚ğ•\¦‚µ‚Ü‚·B
-# ‡¬”g‚Ìü”g”‚à•\¦‚³‚ê‚Ä‚¢‚Ü‚·B
+# å¤‰æ›çµæœã‚’è¡¨ç¤ºã—ã¾ã™ã€‚
+# åˆæˆæ³¢ã®å‘¨æ³¢æ•°ã‚‚è¡¨ç¤ºã•ã‚Œã¦ã„ã¾ã™ã€‚
 par( "mfrow" = c( 3, 1 ) )
 plot( hz, abs( data_freqA[ hz ] ), xlim = c(0, 400), type="l" )
 plot( hz, abs( data_freqB[ hz ] ), xlim = c(0, 400), type="l" )
@@ -272,28 +272,28 @@ plot( hz, abs( data_freqC[ hz ] ), xlim = c(0, 400), type="l" )
 
 # plot( hz, abs( data_freqC[ hz ] ), xlim = c(0, 400), type="l" )
 
-# ƒOƒ‰ƒt‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚é
+# ã‚°ãƒ©ãƒ•ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹
 dirPath <- "C:/var/work/data/fft"
 #pngFileName <- "fft_p_pv_d20.png"
 pngFileName <- paste("fft_p_pv_d20_", c("A", "B", "C"), ".png", sep = "")
 pngFileName <- paste("fft_p_pv_d365_", c("A", "B", "C"), ".png", sep = "")
 pngFilePath <- paste(dirPath, pngFileName, sep = "/")
 
-# •`‰æƒfƒoƒCƒX‚ğŠJ‚­
+# æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã
 png(pngFilePath[1], width = 480, height = 270)  
 plot( hz, abs( data_freqA[ hz ] ), xlim = c(0, 400), type="l" )
-# •`‰æƒfƒoƒCƒX‚ğ•Â‚¶‚é
+# æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
 dev.off() 
 
-# •`‰æƒfƒoƒCƒX‚ğŠJ‚­
+# æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã
 png(pngFilePath[2], width = 480, height = 270)  
 plot( hz, abs( data_freqB[ hz ] ), xlim = c(0, 400), type="l" )
-# •`‰æƒfƒoƒCƒX‚ğ•Â‚¶‚é
+# æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
 dev.off() 
 
-# •`‰æƒfƒoƒCƒX‚ğŠJ‚­
+# æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‹ã
 png(pngFilePath[3], width = 480, height = 270)  
 plot( hz, abs( data_freqC[ hz ] ), xlim = c(0, 400), type="l" )
-# •`‰æƒfƒoƒCƒX‚ğ•Â‚¶‚é
+# æç”»ãƒ‡ãƒã‚¤ã‚¹ã‚’é–‰ã˜ã‚‹
 dev.off() 
 
